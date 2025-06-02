@@ -1,21 +1,14 @@
-const findTheOldest = function(people) {
-    let oldestPerson;
-    let oldestAge = 0;
-    people.forEach(person => {
-        let birthDate = new Date(person.yearOfBirth + "-1-1");
-        let fullAge;
-        if (Object.hasOwn(person, "yearOfDeath")) {
-            fullAge = new Date(person.yearOfDeath + "-1-1") - birthDate;
-        } else {
-            fullAge = new Date(Date.now()) - birthDate;
-        }
+const calculateAge = function(person) {
+    return (person.yearOfDeath ?? new Date().getFullYear()) - person.yearOfBirth;
+}
 
-        if (oldestPerson === undefined || fullAge > oldestAge) {
-            oldestPerson = person;
-            oldestAge = fullAge;
-        }
+const findTheOldest = function(people) {
+    return people.reduce((oldest, person) => {
+        if (calculateAge(person) > calculateAge(oldest))
+            return person;
+        else
+            return oldest;
     });
-    return oldestPerson;
 };
 
 // Do not edit below this line
